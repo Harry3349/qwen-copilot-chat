@@ -1,0 +1,281 @@
+{
+	"name": "qwen-copilot-chat",
+	"displayName": "Qwen for Copilot Chat",
+	"description": "Use Qwen models from Alibaba Cloud Model Studio (DashScope) directly in GitHub Copilot Chat - with streaming, thinking mode, tool calling and image input.",
+	"version": "0.5.2",
+	"publisher": "erikr",
+	"license": "MIT",
+	"engines": {
+		"vscode": "^1.116.0"
+	},
+	"categories": [
+		"AI",
+		"Chat",
+		"Programming Languages"
+	],
+	"keywords": [
+		"qwen",
+		"qwen3",
+		"dashscope",
+		"model studio",
+		"bailian",
+		"copilot",
+		"github copilot",
+		"copilot chat",
+		"byok",
+		"language model",
+		"thinking",
+		"reasoning",
+		"tool calling",
+		"ai",
+		"chat"
+	],
+	"activationEvents": [
+		"onStartupFinished"
+	],
+	"main": "./out/extension.js",
+	"capabilities": {
+		"untrustedWorkspaces": {
+			"supported": true
+		},
+		"virtualWorkspaces": true
+	},
+	"contributes": {
+		"languageModelChatProviders": [
+			{
+				"vendor": "qwen",
+				"displayName": "Qwen"
+			}
+		],
+		"commands": [
+			{
+				"command": "qwen-copilot.setApiKey",
+				"title": "Qwen: Set API Key",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.clearApiKey",
+				"title": "Qwen: Clear API Key",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.getApiKey",
+				"title": "Qwen: Get API Key",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.refreshModels",
+				"title": "Qwen: Refresh Models",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.testConnection",
+				"title": "Qwen: Test Connection",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.openSettings",
+				"title": "Qwen: Open Settings",
+				"category": "Qwen"
+			},
+			{
+				"command": "qwen-copilot.showLogs",
+				"title": "Qwen: Show Logs",
+				"category": "Qwen"
+			}
+		],
+		"configuration": {
+			"title": "Qwen for Copilot Chat",
+			"properties": {
+				"qwen-copilot.baseUrl": {
+					"type": "string",
+					"default": "https://dashscope.aliyuncs.com/compatible-mode/v1",
+					"order": 1,
+					"markdownDescription": "Base URL of the OpenAI-compatible Qwen endpoint. Use the value shown in your console:\n\n- QwenCloud Token Plan (`sk-sp-…` key): `https://token-plan.maas.qwencloudapi.com/compatible-mode/v1`\n- QwenCloud Pay-As-You-Go (`sk-…` key): `https://maas.qwencloudapi.com/compatible-mode/v1`\n- Model Studio / DashScope China: `https://dashscope.aliyuncs.com/compatible-mode/v1`\n- Model Studio / DashScope Singapore: `https://dashscope-intl.aliyuncs.com/compatible-mode/v1`\n\nThe key type and the base URL must match - Token Plan and Pay-As-You-Go keys are not interchangeable. `/chat/completions` is appended automatically when missing.\n\n[Set API Key](command:qwen-copilot.setApiKey) · [Clear API Key](command:qwen-copilot.clearApiKey) · [Get API Key](command:qwen-copilot.getApiKey)"
+				},
+				"qwen-copilot.apiKey": {
+					"type": "string",
+					"default": "",
+					"order": 2,
+					"markdownDescription": "Optional fallback for the Qwen API key. The key is normally stored securely via **Qwen: Set API Key** (SecretStorage). Only set this for automation or CI - settings are stored in plain text."
+				},
+				"qwen-copilot.maxTokens": {
+					"type": "number",
+					"default": 0,
+					"minimum": 0,
+					"order": 3,
+					"description": "Maximum number of output tokens per request. Set to 0 to use the API default."
+				},
+				"qwen-copilot.temperature": {
+					"type": "number",
+					"default": -1,
+					"minimum": -1,
+					"maximum": 2,
+					"order": 4,
+					"description": "Sampling temperature. -1 leaves the value to the API default."
+				},
+				"qwen-copilot.preserveThinking": {
+					"type": "boolean",
+					"default": false,
+					"order": 5,
+					"markdownDescription": "Replay previous `reasoning_content` back to the model on follow-up turns (`preserve_thinking`). Only supported by some Qwen models; enabling it may increase input tokens."
+				},
+				"qwen-copilot.enabledModels": {
+					"type": "array",
+					"items": {
+						"type": "string"
+					},
+					"default": [],
+					"order": 6,
+					"markdownDescription": "Limit the model picker to this list of model IDs (case-insensitive). Leave empty to show all built-in models. Example: `[\"qwen3.8-max\", \"qwen3.7-plus\"]`."
+				},
+				"qwen-copilot.modelInfoOverrides": {
+					"type": "object",
+					"default": {},
+					"order": 7,
+					"markdownDescription": "Override per-model settings, e.g. to point a model at a different API model ID or adjust context limits.\n\n```json\n{\n  \"qwen3.8-max\": {\n    \"apiModel\": \"qwen3.8-max-0902\",\n    \"maxInputTokens\": 1000000,\n    \"maxOutputTokens\": 32768\n  }\n}\n```",
+					"additionalProperties": {
+						"type": "object",
+						"properties": {
+							"apiModel": {
+								"type": "string",
+								"description": "API model ID sent to the endpoint."
+							},
+							"name": {
+								"type": "string",
+								"description": "Display name in the model picker."
+							},
+							"tooltip": {
+								"type": "string",
+								"description": "Tooltip shown in the model picker."
+							},
+							"maxInputTokens": {
+								"type": "number",
+								"description": "Maximum input tokens reported to Copilot."
+							},
+							"maxOutputTokens": {
+								"type": "number",
+								"description": "Maximum output tokens reported to Copilot."
+							},
+							"imageInput": {
+								"type": "boolean",
+								"description": "Whether the model accepts image input."
+							},
+							"toolCalling": {
+								"type": "boolean",
+								"description": "Whether the model supports tool calling."
+							},
+							"thinking": {
+								"type": "boolean",
+								"description": "Whether the model supports a thinking / reasoning mode."
+							}
+						}
+					}
+				},
+				"qwen-copilot.extraModels": {
+					"type": "array",
+					"default": [],
+					"order": 8,
+					"markdownDescription": "Add additional models to the picker (for example Qwen models that are not built in).\n\n```json\n[\n  {\n    \"id\": \"my-model\",\n    \"apiModel\": \"qwen3.5-flash\",\n    \"name\": \"My Qwen\",\n    \"maxInputTokens\": 262144,\n    \"maxOutputTokens\": 32768,\n    \"imageInput\": true,\n    \"toolCalling\": true,\n    \"thinking\": true\n  }\n]\n```",
+					"items": {
+						"type": "object",
+						"required": [
+							"id",
+							"apiModel",
+							"name"
+						],
+						"properties": {
+							"id": {
+								"type": "string",
+								"description": "Unique model ID used by VS Code."
+							},
+							"apiModel": {
+								"type": "string",
+								"description": "Model ID sent to the API."
+							},
+							"name": {
+								"type": "string",
+								"description": "Display name in the model picker."
+							},
+							"family": {
+								"type": "string",
+								"description": "Family name (defaults to 'qwen')."
+							},
+							"version": {
+								"type": "string",
+								"description": "Version string (defaults to '1')."
+							},
+							"detail": {
+								"type": "string",
+								"description": "Short detail text shown next to the model name."
+							},
+							"maxInputTokens": {
+								"type": "number",
+								"default": 131072
+							},
+							"maxOutputTokens": {
+								"type": "number",
+								"default": 8192
+							},
+							"imageInput": {
+								"type": "boolean",
+								"default": false
+							},
+							"toolCalling": {
+								"type": "boolean",
+								"default": true
+							},
+							"thinking": {
+								"type": "boolean",
+								"default": false
+							}
+						}
+					}
+				},
+				"qwen-copilot.requestHeaders": {
+					"type": "object",
+					"default": {},
+					"order": 9,
+					"additionalProperties": {
+						"type": "string"
+					},
+					"markdownDescription": "Extra HTTP headers sent with every chat completion request (for example for proxies or gateways)."
+				},
+				"qwen-copilot.debugMode": {
+					"type": "string",
+					"default": "minimal",
+					"enum": [
+						"minimal",
+						"metadata",
+						"verbose"
+					],
+					"enumItemLabels": [
+						"Minimal",
+						"Metadata",
+						"Verbose"
+					],
+					"markdownEnumDescriptions": [
+						"Errors and important events only.",
+						"Adds privacy-safe request metadata (model, message counts, tool counts, timing).",
+						"Adds full request bodies. Warning: contains prompt content."
+					],
+					"order": 10,
+					"markdownDescription": "Controls what is written to the **Qwen** output channel. Use [`Qwen: Show Logs`](command:qwen-copilot.showLogs) to open it."
+				}
+			}
+		}
+	},
+	"scripts": {
+		"compile": "tsc -p ./",
+		"watch": "tsc -watch -p ./",
+		"test:smoke": "npm run compile && node scripts/smoke-test.cjs",
+		"vscode:prepublish": "npm run compile",
+		"package": "mkdir -p dist && vsce package --no-dependencies --allow-missing-repository -o dist/"
+	},
+	"devDependencies": {
+		"@types/node": "^22.10.0",
+		"@types/vscode": "^1.116.0",
+		"@vscode/vsce": "^3.2.1",
+		"typescript": "^5.7.2"
+	}
+}
