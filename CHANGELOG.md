@@ -2,6 +2,11 @@
 
 All notable changes to the "Qwen for Copilot Chat" extension are documented here.
 
+## 0.5.3
+
+- Change the `publisher` to **Harry3349** so the extension can be published to Open VSX with an
+  automatically verified namespace (matched against the public GitHub repository).
+
 ## 0.5.2
 
 - Remove the **Qwen: Benchmark vs DeepSeek** command and its `src/benchmark.ts` module. Benchmarking
