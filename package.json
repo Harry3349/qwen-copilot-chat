@@ -5,6 +5,10 @@
 	"version": "0.5.2",
 	"publisher": "erikr",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Harry3349/qwen-copilot-chat.git"
+	},
 	"engines": {
 		"vscode": "^1.116.0"
 	},
