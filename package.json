@@ -1,13 +1,22 @@
 {
 	"name": "qwen-copilot-chat",
 	"displayName": "Qwen for Copilot Chat",
-	"description": "Use Qwen models from Alibaba Cloud Model Studio (DashScope) directly in GitHub Copilot Chat - with streaming, thinking mode, tool calling and image input.",
-	"version": "0.5.3",
+	"description": "Use Qwen models from QwenCloud or Alibaba Cloud Model Studio (DashScope) in GitHub Copilot Chat - with streaming, thinking mode, tool calling and image input.",
+	"version": "0.6.0",
 	"publisher": "Harry3349",
 	"license": "MIT",
+	"icon": "images/icon.png",
+	"galleryBanner": {
+		"color": "#6D28D9",
+		"theme": "dark"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/Harry3349/qwen-copilot-chat.git"
+	},
+	"homepage": "https://github.com/Harry3349/qwen-copilot-chat#readme",
+	"bugs": {
+		"url": "https://github.com/Harry3349/qwen-copilot-chat/issues"
 	},
 	"engines": {
 		"vscode": "^1.116.0"

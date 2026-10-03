@@ -1,10 +1,42 @@
-# Qwen for Copilot Chat
+<p align="center">
+  <img src="images/icon-256.png" width="128" alt="Qwen for Copilot Chat">
+</p>
 
-Use **Qwen** models from Alibaba Cloud Model Studio (DashScope) directly in GitHub Copilot Chat —
-with streaming, thinking mode, tool calling and image input.
+<h1 align="center">Qwen for Copilot Chat</h1>
+
+<p align="center">
+  Bring <b>Qwen</b> models into GitHub Copilot Chat — streaming, thinking mode, tool calling and image input.<br>
+  Works with <b>QwenCloud</b> and <b>Alibaba Cloud Model Studio&nbsp;/&nbsp;DashScope</b>.
+</p>
+
+<p align="center">
+  <a href="https://open-vsx.org/extension/Harry3349/qwen-copilot-chat"><img src="https://img.shields.io/open-vsx/v/Harry3349/qwen-copilot-chat?label=Open%20VSX&color=6D28D9" alt="Open VSX version"></a>
+  <a href="https://open-vsx.org/extension/Harry3349/qwen-copilot-chat"><img src="https://img.shields.io/open-vsx/dt/Harry3349/qwen-copilot-chat?label=downloads&color=6D28D9" alt="Downloads"></a>
+  <img src="https://img.shields.io/badge/VS%20Code-1.116%2B-007ACC?logo=visualstudiocode&logoColor=white" alt="VS Code 1.116+">
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/Harry3349/qwen-copilot-chat?color=6D28D9" alt="MIT licence"></a>
+  <a href="https://github.com/Harry3349/qwen-copilot-chat/releases"><img src="https://img.shields.io/github/v/release/Harry3349/qwen-copilot-chat?color=6D28D9&label=release" alt="Latest release"></a>
+</p>
+
+---
 
 The extension registers a `languageModelChatProvider` for the `qwen` vendor, so Qwen models show up
 next to the built-in Copilot models in the model picker.
+
+> **Not affiliated with Alibaba Cloud or GitHub.** Bring your own API key — the extension talks
+> directly to the endpoint you configure.
+
+## Contents
+
+- [Features](#features)
+- [Requirements](#requirements)
+- [Installation](#installation)
+- [Setup](#setup)
+  - [Endpoint & key matrix](#endpoint--key-matrix)
+- [Commands](#commands)
+- [Settings](#settings)
+- [Troubleshooting](#troubleshooting)
+- [Development](#development)
+- [License](#license)
 
 ## Features
 
@@ -20,17 +52,34 @@ next to the built-in Copilot models in the model picker.
 
 ## Requirements
 
-- VS Code 1.116 or newer
-- GitHub Copilot Chat extension
-- An Alibaba Cloud Model Studio (DashScope) API key
+- **VS Code 1.116 or newer** — or a compatible editor such as **Code OSS** / **VSCodium**, which
+  install extensions from [Open VSX](https://open-vsx.org/extension/Harry3349/qwen-copilot-chat).
+- The **GitHub Copilot Chat** extension.
+- An API key from **QwenCloud** or **Alibaba Cloud Model Studio / DashScope**.
+
+## Installation
+
+**From the marketplace** — search for *Qwen for Copilot Chat* in the Extensions view, or:
+
+```sh
+code --install-extension Harry3349.qwen-copilot-chat
+```
+
+**From a VSIX** — grab the asset from the [latest release](https://github.com/Harry3349/qwen-copilot-chat/releases):
+
+```sh
+code --install-extension qwen-copilot-chat-0.6.0.vsix --force
+```
 
 ## Setup
 
-1. Create an API key in the Model Studio console — run the command **Qwen: Get API Key** to open the docs.
+1. Create an API key in the console of your provider — run the command **Qwen: Get API Key** to open the docs.
 2. Run **Qwen: Set API Key** from the Command Palette and paste the key (starts with `sk-`).
 3. Open Copilot Chat, click the model picker and select a Qwen model.
 
-Set `qwen-copilot.baseUrl` to the endpoint shown in **your** console — qwencloud and Model Studio
+### Endpoint & key matrix
+
+Set `qwen-copilot.baseUrl` to the endpoint shown in **your** console — QwenCloud and Model Studio
 (DashScope) are different platforms and a key only works on the platform that issued it:
 
 | Console | Key format | Base URL |
@@ -136,7 +185,16 @@ Add a model that is not built in:
 ```sh
 npm install
 npm run compile     # or: npm run watch
+npm run test:smoke  # activates the compiled extension with stubs — no API key needed
+npm run package     # builds dist/qwen-copilot-chat-<version>.vsix
 ```
+
+## License
+
+[MIT](LICENSE) © Harry3349
+
+Qwen is a trademark of Alibaba Group. GitHub Copilot is a trademark of GitHub, Inc.
+This is an independent, unofficial integration and is not affiliated with either company.
 
 Press <kbd>F5</kbd> to launch an Extension Development Host, or build a VSIX:
 

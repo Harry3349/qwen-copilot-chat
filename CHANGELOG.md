@@ -2,6 +2,13 @@
 
 All notable changes to the "Qwen for Copilot Chat" extension are documented here.
 
+## 0.6.0
+
+- Add an extension **icon** and a matching `galleryBanner` colour, so the extension is recognisable in
+  the marketplace and in the Extensions view.
+- Rewrite the README with a logo, badges, a table of contents and an installation section; add
+  `homepage` and `bugs` links to the manifest.
+
 ## 0.5.3
 
 - Change the `publisher` to **Harry3349** so the extension can be published to Open VSX with an
